@@ -167,6 +167,8 @@ func (syncer *Syncer) setUserByKeyValue(user *User, key string, value string) {
 		user.TotpSecret = value
 	case "SignupApplication":
 		user.SignupApplication = value
+	case "Groups":
+		user.Groups = []string{value}
 	}
 }
 
@@ -300,6 +302,7 @@ func (syncer *Syncer) getMapFromOriginalUser(user *OriginalUser) map[string]stri
 	m["PreferredMfaType"] = user.PreferredMfaType
 	m["TotpSecret"] = user.TotpSecret
 	m["SignupApplication"] = user.SignupApplication
+	m["Groups"] = strings.Join(user.Groups, "|")
 
 	m2 := map[string]string{}
 	for _, tableColumn := range syncer.TableColumns {

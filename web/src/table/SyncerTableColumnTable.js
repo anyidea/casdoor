@@ -101,7 +101,7 @@ class SyncerTableColumnTable extends React.Component {
                 ["Owner", "Name", "CreatedTime", "UpdatedTime", "Id", "Type", "Password", "PasswordSalt", "DisplayName", "FirstName", "LastName", "Avatar", "PermanentAvatar",
                   "Email", "EmailVerified", "Phone", "Location", "Address", "Affiliation", "Title", "IdCardType", "IdCard", "Homepage", "Bio", "Tag", "Region",
                   "Language", "Gender", "Birthday", "Education", "Score", "Ranking", "IsDefaultAvatar", "IsOnline", "IsAdmin", "IsForbidden", "IsDeleted", "CreatedIp",
-                  "PreferredMfaType", "TotpSecret", "SignupApplication"]
+                  "PreferredMfaType", "TotpSecret", "SignupApplication", "Groups"]
                   .map((item, index) => <Option key={index} value={item}>{item}</Option>)
               }
             </Select>
