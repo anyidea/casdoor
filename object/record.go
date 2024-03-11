@@ -98,7 +98,7 @@ func AddRecord(record *Record) bool {
 
 	affected, err := ormer.Engine.Insert(record)
 	if err != nil {
-		fmt.Printf("AddRecord() error: %s", err.Error())
+		panic(err)
 	}
 
 	return affected != 0
@@ -146,8 +146,6 @@ func SendWebhooks(record *Record) error {
 		return err
 	}
 
-	errs := []error{}
-	webhooks = getFilteredWebhooks(webhooks, record.Action)
 	for _, webhook := range webhooks {
 		if !webhook.IsEnabled {
 			continue
@@ -174,30 +172,10 @@ func SendWebhooks(record *Record) error {
 
 			err := sendWebhook(webhook, record)
 			if err != nil {
-				errs = append(errs, err)
-				continue
+				return err
 			}
-
-			user, err = GetMaskedUser(user, false, err)
-			if err != nil {
-				errs = append(errs, err)
-				continue
-			}
-		}
-
-		err = sendWebhook(webhook, record, user)
-		if err != nil {
-			errs = append(errs, err)
-			continue
 		}
 	}
 
-	if len(errs) > 0 {
-		errStrings := []string{}
-		for _, err := range errs {
-			errStrings = append(errStrings, err.Error())
-		}
-		return fmt.Errorf(strings.Join(errStrings, " | "))
-	}
 	return nil
 }
