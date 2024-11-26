@@ -39,12 +39,51 @@ img {
   min-height: 100vh;
 }
 
+#parent-area > main > div > div.login-content > div.login-panel > div.login-form > div > div > div:nth-child(3) > button {
+  border-radius: 8px;
+}
+
+#parent-area > main > div > div.login-content > div.login-panel > div.login-form > div > div > button {
+  box-shadow: none;
+  border-radius: 8px;
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+  border: 1px solid #eee;
+}
+
+#footer {
+  background: #e5e1ec;
+  color: #adaab4;
+}
+
+#footer > a > img {
+  filter: grayscale(100%);
+  transition: filter 0.2s;
+
+  &:hover {
+    filter: grayscale(0%);
+  }
+}
+
+@media (max-width: 640px) {
+  .login-panel {
+    padding: 40px 0 0 0;
+    box-shadow: none;
+  }
+}
+
+.ant-btn-primary {
+  box-shadow: none !important;
+}
+
 .panel-logo {
   margin-bottom: 30px;
+  width: 230px;
 }
 
 .select-box {
-  display: flex;
+  display: none;
   align-items: center;
   justify-content: center;
   border-radius: 5px;
@@ -56,6 +95,10 @@ img {
   &:hover {
     background-color: #f5f5f5 !important;
   }
+}
+
+.login-logo-box {
+  margin-top: 20px;
 }
 
 .rightDropDown {
@@ -90,10 +133,10 @@ img {
 }
 
 .forget-content {
-  padding: 10px 100px 20px;
+  padding: 40px 70px 0 70px;
   margin: 30px auto;
   border: 2px solid #fff;
-  border-radius: 7px;
+  border-radius: 16px;
   background-color: rgb(255 255 255);
   box-shadow: 0 0 20px rgb(0 0 0 / 20%);
 }
@@ -102,8 +145,11 @@ img {
   margin-top: 50px;
   margin-bottom: 50px;
   display: flex;
-  background-color: rgb(255 255 255);
   overflow: hidden;
+  background-color: #fff;
+  padding: 40px 70px 0 70px;
+  border-radius: 16px;
+  box-shadow: 0 0 20px rgb(0 0 0 / 20%);
 }
 
 .login-form {
@@ -125,7 +171,7 @@ img {
   flex: auto;
   display: flex;
   align-items: center;
-  background: #fff no-repeat;
+  background: #e5e1ec no-repeat;
   background-size: 100% 100%;
   background-attachment: fixed;
 }
