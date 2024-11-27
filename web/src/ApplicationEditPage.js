@@ -44,12 +44,17 @@ require("codemirror/mode/css/css");
 const {Option} = Select;
 
 const template = `<style>
-  .login-panel{
+  .login-panel {
     padding: 40px 70px 0;
     border-radius: 16px;
     background-color: #fff;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.02);
-}
+  }
+  .panel-logo {
+    width: 230px;
+    margin-bottom: 30px;
+    margin-left: 0px;
+  }
 </style>`;
 
 const previewGrid = Setting.isMobile() ? 22 : 11;
