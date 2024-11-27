@@ -40,33 +40,31 @@ img {
   background: #e5e1ec;
 }
 
-#parent-area > main > div > div.login-content > div.login-panel > div.login-form > div > div > div:nth-child(3) > button {
-  border-radius: 8px;
-}
-
-#parent-area > main > div > div.login-content > div.login-panel > div.login-form > div > div > button {
+#parent-area main .login-content .login-panel .login-form button {
   box-shadow: none;
   border-radius: 8px;
-  transition-property: all;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 150ms;
+  transition: all 150ms cubic-bezier(0.4, 0, 0.2, 1);
   border: 1px solid #eee;
+}
+
+#footer {
+  background: #e5e1ec;
 }
 
 #footer > a {
   filter: grayscale(100%);
   transition: filter 0.2s;
   color: #adaab4;
+}
 
-  &:hover {
-    filter: grayscale(0%);
-    color: #928f9a;
-  }
+#footer > a:hover {
+  filter: grayscale(0%);
+  color: #928f9a;
 }
 
 @media (max-width: 640px) {
   .login-panel {
-    padding: 40px 0 0 0;
+    padding: 40px 0 0;
     box-shadow: none;
   }
 }
@@ -89,10 +87,10 @@ img {
   height: 64px;
   float: right;
   cursor: pointer;
+}
 
-  &:hover {
-    background-color: #f5f5f5 !important;
-  }
+.select-box:hover {
+  background-color: #f5f5f5 !important;
 }
 
 .login-logo-box {
@@ -106,48 +104,49 @@ img {
   border-radius: 7px;
   float: right;
   cursor: pointer;
+}
 
-  &:hover {
-    background-color: #f5f5f5;
-    color: black;
-  }
+.rightDropDown:hover {
+  background-color: #f5f5f5;
+  color: black;
 }
 
 .content-warp-card {
-  box-shadow: 0 1px 5px 0 rgb(51 51 51 / 14%);
+  box-shadow: 0 1px 5px 0 rgba(51, 51, 51, 0.14);
   flex: 1;
   align-items: stretch;
 }
 
 .side-image {
   display: none;
+}
 
-  @media screen and (min-width: 1100px) {
+@media (min-width: 1100px) {
+  .side-image {
     display: block;
     position: relative;
     width: 500px;
-    border-right: 0.5px solid rgb(196 203 215);
+    border-right: 0.5px solid #c4cbd7;
   }
 }
 
 .forget-content {
-  padding: 40px 70px 0 70px;
+  padding: 40px 70px 0;
   margin: 30px auto;
   border: 2px solid #fff;
   border-radius: 16px;
-  background-color: rgb(255 255 255);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 2%);
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.02);
 }
 
 .login-panel {
-  margin-top: 50px;
-  margin-bottom: 50px;
+  margin: 50px 0;
   display: flex;
   overflow: hidden;
   background-color: #fff;
-  padding: 40px 70px 0 70px;
+  padding: 40px 70px 0;
   border-radius: 16px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 2%);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.02);
 }
 
 .login-form {
@@ -157,12 +156,11 @@ img {
 
 .login-content {
   display: flex;
-  flex-direction: row;
   justify-content: center;
   align-items: center;
-  box-sizing: border-box;
   margin: 0 auto;
   position: relative;
+  box-sizing: border-box;
 }
 
 .loginBackground {
