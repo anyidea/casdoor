@@ -45,10 +45,10 @@ const {Option} = Select;
 
 const template = `<style>
   .login-panel{
-    padding: 40px 70px 0 70px;
-    border-radius: 10px;
-    background-color: #ffffff;
-    box-shadow: 0 0 30px 20px rgba(0, 0, 0, 0.20);
+    padding: 40px 70px 0;
+    border-radius: 16px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.02);
 }
 </style>`;
 
