@@ -17,6 +17,7 @@ package object
 import (
 	"errors"
 	"fmt"
+	"strings"
 
 	"github.com/casdoor/casdoor/util"
 	"github.com/xorm-io/builder"

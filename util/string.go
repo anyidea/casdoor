@@ -309,3 +309,16 @@ func GetUsernameFromEmail(email string) string {
 		return tokens[0]
 	}
 }
+
+func UniqueStrings(input []string) []string {
+    uniqueMap := make(map[string]bool)
+    uniqueSlice := []string{}
+
+    for _, str := range input {
+        if !uniqueMap[str] {
+            uniqueMap[str] = true
+            uniqueSlice = append(uniqueSlice, str)
+        }
+    }
+    return uniqueSlice
+}
