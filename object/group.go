@@ -319,25 +319,34 @@ func GroupChangeTrigger(oldName, newName string) error {
 	return nil
 }
 
-func GetAllParentGroupIds(groupName string) []string {
-    // 按照 '/' 分割群组名称
-    parts := strings.Split(groupName, "/")
-
-    // 构建包含自身及所有上级群组名称的结果
-    var groupNames []string
-    currentGroupName := ""
-
-    for _, part := range parts {
-        if currentGroupName != "" {
-            // 如果当前组名称不为空，添加 '/' 符号
-            currentGroupName += "/"
-        }
-        currentGroupName += part
-
-        // 将当前完整的群组名称添加到结果中
-        groupNames = append(groupNames, currentGroupName)
+func GetAllParentGroupIds(groupId string) ([]string, error) {
+    var parentGroupIds []string
+    
+    // 获取当前组的初始信息
+    currentGroup, err := GetGroup(groupId)
+    if err != nil {
+        return nil, err
     }
-
-    return groupNames
+    
+    // 循环查找父组
+    for currentGroup != nil && currentGroup.ParentId != "" {
+        parentGroup, err := getGroup(currentGroup.Owner, currentGroup.ParentId)
+        if err != nil {
+            return nil, err
+        }
+        
+        // 如果找到了父组，则将其添加到结果中
+        if parentGroup != nil {
+            parentGroupIds = append(parentGroupIds, parentGroup.GetId())
+            // 更新当前组为其父组，继续查找上一级
+            currentGroup = parentGroup
+        } else {
+            // 如果父组不存在，终止循环
+            break
+        }
+    }
+    
+    return parentGroupIds, nil
 }
+
 
