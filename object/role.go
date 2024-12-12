@@ -304,7 +304,10 @@ func getRolesByUserInternal(userId string) ([]*Role, error) {
 	allGroups := []string{}
 	for _, groupId := range userGroups {
 		allGroups = append(allGroups, groupId)
-		parentGroups := GetAllParentGroupIds(groupId)
+		parentGroups, err := GetAllParentGroupIds(groupId)
+		if err != nil {
+			return roles, err
+		}
 		allGroups = append(allGroups, parentGroups...)
 	}
 
