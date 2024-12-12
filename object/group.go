@@ -317,3 +317,26 @@ func GroupChangeTrigger(oldName, newName string) error {
 	}
 	return nil
 }
+
+func GetAllParentGroupIds(groupName string) []string {
+    // 按照 '/' 分割群组名称
+    parts := strings.Split(groupName, "/")
+
+    // 构建包含自身及所有上级群组名称的结果
+    var groupNames []string
+    currentGroupName := ""
+
+    for _, part := range parts {
+        if currentGroupName != "" {
+            // 如果当前组名称不为空，添加 '/' 符号
+            currentGroupName += "/"
+        }
+        currentGroupName += part
+
+        // 将当前完整的群组名称添加到结果中
+        groupNames = append(groupNames, currentGroupName)
+    }
+
+    return groupNames
+}
+

@@ -265,6 +265,33 @@ func (role *Role) GetId() string {
 	return fmt.Sprintf("%s/%s", role.Owner, role.Name)
 }
 
+// func getRolesByUserInternal(userId string) ([]*Role, error) {
+// 	roles := []*Role{}
+// 	user, err := GetUser(userId)
+// 	if err != nil {
+// 		return roles, err
+// 	}
+
+// 	query := ormer.Engine.Alias("r").Where("r.users like ?", fmt.Sprintf("%%%s%%", userId))
+// 	for _, group := range user.Groups {
+// 		query = query.Or("r.groups like ?", fmt.Sprintf("%%%s%%", group))
+// 	}
+
+// 	err = query.Find(&roles)
+// 	if err != nil {
+// 		return roles, err
+// 	}
+
+// 	res := []*Role{}
+// 	for _, role := range roles {
+// 		if util.InSlice(role.Users, userId) || util.HaveIntersection(role.Groups, user.Groups) {
+// 			res = append(res, role)
+// 		}
+// 	}
+
+// 	return res, nil
+// }
+
 func getRolesByUserInternal(userId string) ([]*Role, error) {
 	roles := []*Role{}
 	user, err := GetUser(userId)
@@ -272,24 +299,41 @@ func getRolesByUserInternal(userId string) ([]*Role, error) {
 		return roles, err
 	}
 
-	query := ormer.Engine.Alias("r").Where("r.users like ?", fmt.Sprintf("%%%s%%", userId))
-	for _, group := range user.Groups {
-		query = query.Or("r.groups like ?", fmt.Sprintf("%%%s%%", group))
+	// 获取用户所属的所有群组，包括父级群组
+	userGroups := user.Groups
+	allGroups := []string{}
+	for _, groupId := range userGroups {
+		parentGroups := GetAllParentGroupIds(groupId)
+		allGroups = append(allGroups, parentGroups...)
 	}
 
-	err = query.Find(&roles)
+	// 去除重复的群组 ID
+	allGroups = util.UniqueStrings(allGroups)
+
+	// 构建查询
+	query := ormer.Engine.Table("role").Alias("r")
+
+	// 构建 WHERE 条件
+	whereClause := "JSON_CONTAINS(r.users, ?)"
+	params := []interface{}{fmt.Sprintf("\"%s\"", userId)}
+
+	if len(allGroups) > 0 {
+		groupConditions := []string{}
+		for _, group := range allGroups {
+			groupConditions = append(groupConditions, "JSON_CONTAINS(r.groups, ?)")
+			params = append(params, fmt.Sprintf("\"%s\"", group))
+		}
+		groupsWhere := strings.Join(groupConditions, " OR ")
+		whereClause += " OR (" + groupsWhere + ")"
+	}
+
+	// 执行查询
+	err = query.Where(whereClause, params...).Find(&roles)
 	if err != nil {
 		return roles, err
 	}
 
-	res := []*Role{}
-	for _, role := range roles {
-		if util.InSlice(role.Users, userId) || util.HaveIntersection(role.Groups, user.Groups) {
-			res = append(res, role)
-		}
-	}
-
-	return res, nil
+	return roles, nil
 }
 
 func getRolesByUser(userId string) ([]*Role, error) {
