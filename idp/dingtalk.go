@@ -175,16 +175,12 @@ func (idp *DingTalkIdProvider) GetUserInfo(token *oauth2.Token) (*UserInfo, erro
 
 	corpAccessToken := idp.getInnerAppAccessToken()
 	userId, err := idp.getUserId(userInfo.UnionId, corpAccessToken)
-	if err != nil {
-		return nil, err
+	if !userId {
+		&userInfo, nil
 	}
 
 	corpMobile, corpEmail, jobNumber, err := idp.getUserCorpEmail(userId, corpAccessToken)
 	if err == nil {
-		if corpMobile != "" {
-			userInfo.Phone = corpMobile
-		}
-
 		if corpEmail != "" {
 			userInfo.Email = corpEmail
 		}
