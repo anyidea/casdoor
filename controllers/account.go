@@ -282,6 +282,19 @@ func (c *ApiController) Logout() {
 				c.ResponseOk()
 				return
 			} else {
+				if user != "" {
+					c.ClearUserSession()
+					// TODO https://github.com/casdoor/casdoor/pull/1494#discussion_r1095675265
+					owner, username := util.GetOwnerAndNameFromId(user)
+			
+					_, err = object.DeleteSessionId(util.GetSessionId(owner, username, object.CasdoorApplication), c.Ctx.Input.CruSession.SessionID())
+					if err != nil {
+						c.ResponseError(err.Error())
+						return
+					}
+		
+					util.LogInfo(c.Ctx, "API: [%s] logged out", user)
+				}
 				c.Ctx.Redirect(http.StatusFound, fmt.Sprintf("%s?state=%s", strings.TrimRight(redirectUri, "/"), state))
 			}
 		}
