@@ -1,7 +1,8 @@
-version: '3.1'
+version: '3.8'
 services:
   casdoor:
     restart: always
+    platform: linux/amd64  # 指定 x86 架构
     build:
       context: ./
       dockerfile: Dockerfile

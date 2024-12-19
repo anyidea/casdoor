@@ -175,7 +175,7 @@ func (idp *DingTalkIdProvider) GetUserInfo(token *oauth2.Token) (*UserInfo, erro
 
 	corpAccessToken := idp.getInnerAppAccessToken()
 	userId, err := idp.getUserId(userInfo.UnionId, corpAccessToken)
-	if !userId {
+	if userId == "" {
 		return &userInfo, nil
 	}
 
