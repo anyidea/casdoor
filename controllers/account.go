@@ -278,8 +278,17 @@ func (c *ApiController) Logout() {
 		// 	return
 		// }
 		if accessToken == "" {
-			c.ResponseError(c.T("general:Missing parameter") + ": id_token_hint")
-			return
+			if redirectUri == "" {
+				c.ResponseOk()
+				return
+			} else {
+				if application.IsRedirectUriValid(redirectUri) {
+					c.Ctx.Redirect(http.StatusFound, fmt.Sprintf("%s?state=%s", strings.TrimRight(redirectUri, "/"), state))
+				} else {
+					c.ResponseError(fmt.Sprintf(c.T("token:Redirect URI: %s doesn't exist in the allowed Redirect URI list"), redirectUri))
+					return
+				}
+			}
 		}
 
 		affected, application, token, err := object.ExpireTokenByAccessToken(accessToken)
