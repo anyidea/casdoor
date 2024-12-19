@@ -270,7 +270,7 @@ func (idp *DingTalkIdProvider) getUserCorpEmail(userId string, accessToken strin
 	body["userid"] = userId
 	respBytes, err := idp.postWithBody(body, "https://oapi.dingtalk.com/topapi/v2/user/get?access_token="+accessToken)
 	if err != nil {
-		return "", "", "", err
+		return "", "", err
 	}
 
 	var data struct {
@@ -283,10 +283,10 @@ func (idp *DingTalkIdProvider) getUserCorpEmail(userId string, accessToken strin
 	}
 	err = json.Unmarshal(respBytes, &data)
 	if err != nil {
-		return "", "", "", err
+		return "", "", err
 	}
 	if data.ErrMessage != "ok" {
-		return "", "", "", fmt.Errorf(data.ErrMessage)
+		return "", "", fmt.Errorf(data.ErrMessage)
 	}
 	return data.Result.Email, data.Result.JobNumber, nil
 }
