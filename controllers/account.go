@@ -282,12 +282,7 @@ func (c *ApiController) Logout() {
 				c.ResponseOk()
 				return
 			} else {
-				if application.IsRedirectUriValid(redirectUri) {
-					c.Ctx.Redirect(http.StatusFound, fmt.Sprintf("%s?state=%s", strings.TrimRight(redirectUri, "/"), state))
-				} else {
-					c.ResponseError(fmt.Sprintf(c.T("token:Redirect URI: %s doesn't exist in the allowed Redirect URI list"), redirectUri))
-					return
-				}
+				c.Ctx.Redirect(http.StatusFound, fmt.Sprintf("%s?state=%s", strings.TrimRight(redirectUri, "/"), state))
 			}
 		}
 
